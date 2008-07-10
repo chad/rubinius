@@ -21,7 +21,8 @@ struct rubinius_environment {
   char *platform_config;
   char *bootstrap_path;
   char *platform_path;
-  char *core_path;
+  char *common_path;
+  char *delta_path;
   char *loader_path;
 
   int machine_id;

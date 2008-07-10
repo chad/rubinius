@@ -75,15 +75,24 @@ int main(int argc, char **argv) {
   }
   
   e->platform_path = archive;
-  
-  /* Find the core. */
-  archive = search_for("RBX_CORE", "core");
+
+  /* Find the common. */
+  archive = search_for("RBX_COMMON", "common");
   if(!archive) {
-    printf("Unable to find a core to load!\n");
+    printf("Unable to find a common to load!\n");
     return 1;
   }
   
-  e->core_path = archive;
+  e->common_path = archive;
+  
+  /* Find the delta. */
+  archive = search_for("RBX_DELTA", "delta");
+  if(!archive) {
+    printf("Unable to find a delta to load!\n");
+    return 1;
+  }
+  
+  e->delta_path = archive;
   
   /* Load the loader.rbc */
   archive = search_for("RBX_LOADER", "loader.rbc");

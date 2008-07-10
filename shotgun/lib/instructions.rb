@@ -1,4 +1,4 @@
-require "#{File.dirname(__FILE__)}/../../kernel/core/iseq"
+require "#{File.dirname(__FILE__)}/../../kernel/delta/iseq"
 
 class ShotgunInstructions
 

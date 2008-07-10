@@ -24,7 +24,8 @@ task :stable_compiler do
     puts "Use current versions, not stable."
   else
     ENV['RBX_BOOTSTRAP'] = "runtime/stable/bootstrap.rba"
-    ENV['RBX_CORE'] = "runtime/stable/core.rba"
+    ENV['RBX_DELTA'] = "runtime/stable/delta.rba"
+    ENV['RBX_COMMON'] = "runtime/stable/common.rba"
     ENV['RBX_LOADER'] = "runtime/stable/loader.rbc"
     ENV['RBX_PLATFORM'] = "runtime/stable/platform.rba"
   end
@@ -34,13 +35,14 @@ rule ".rbc" => %w[.rb] do |t|
   compile t.source, t.name
 end
 
-files = FileList['kernel/core/*.rb']
+files = FileList['kernel/delta/*.rb']
 
-unless files.include?("kernel/core/dir.rb")
-  files.add("kernel/core/dir.rb")
+unless files.include?("kernel/delta/dir.rb")
+  files.add("kernel/delta/dir.rb")
 end
 
-Core      = CodeGroup.new(files, 'runtime/core', 'core')
+Common     = CodeGroup.new('kernel/common/*.rb', 'runtime/common', 'common')
+Delta      = CodeGroup.new(files, 'runtime/delta', 'delta')
 
 Bootstrap = CodeGroup.new 'kernel/bootstrap/*.rb', 'runtime/bootstrap',
                           'bootstrap'
@@ -66,7 +68,7 @@ file 'runtime/stable/compiler.rba' => 'build:compiler' do |t|
   end
 end
 
-AllPreCompiled = Core.output + Bootstrap.output + PlatformFiles.output
+AllPreCompiled = Common.output + Delta.output + Bootstrap.output + PlatformFiles.output
 AllPreCompiled << "runtime/loader.rbc"
 
 namespace :build do
@@ -144,7 +146,8 @@ namespace :build do
   task :stable => %w[
     build:all
     runtime/stable/bootstrap.rba
-    runtime/stable/core.rba
+    runtime/stable/common.rba
+    runtime/stable/delta.rba
     runtime/stable/compiler.rba
     runtime/stable/loader.rbc
     runtime/stable/platform.rba

@@ -166,16 +166,25 @@ int environment_load_machine(environment e, machine m) {
   }
 
   if(m->s->excessive_tracing) {
-    printf("[ Loading core bundle %s]\n", e->core_path);
+    printf("[ Loading common bundle %s]\n", e->common_path);
   }
 
-  if(!machine_load_bundle(m, e->core_path)) {
-    printf("Problem encountered while loading core %s\n", e->core_path);
+  if(!machine_load_bundle(m, e->common_path)) {
+    printf("Problem encountered while loading common %s\n", e->common_path);
+    return FALSE;
+  }
+
+  if(m->s->excessive_tracing) {
+    printf("[ Loading delta bundle %s]\n", e->delta_path);
+  }
+
+  if(!machine_load_bundle(m, e->delta_path)) {
+    printf("Problem encountered while loading delta %s\n", e->delta_path);
     return FALSE;
   }
 
   if(!machine_run_file(m, e->loader_path)) {
-    printf("Unclean exit from %s\n", e->core_path);
+    printf("Unclean exit from %s\n", e->delta_path);
     return FALSE;
   }
 

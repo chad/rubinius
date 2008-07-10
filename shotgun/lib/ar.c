@@ -29,7 +29,7 @@ static char *ar_file_name(int fd, char *name, long *size) {
 
   if(strncmp(name, "#1/", 3) != 0) {
     ptr = strchr(name, ' ');
-    *ptr = (char)0;
+    if(ptr) *ptr = (char)0;
     return strdup(name);
   } else {
     length = atoi(name + 3);

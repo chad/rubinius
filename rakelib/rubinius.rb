@@ -1,4 +1,4 @@
-require 'kernel/core/ar'
+require 'kernel/delta/ar'
 
 Ar.after_loaded # HACK
 

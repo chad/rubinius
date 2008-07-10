@@ -38,8 +38,12 @@ unless ENV['RBX_BOOTSTRAP']
   ENV['RBX_BOOTSTRAP'] = "#{prefix}/runtime/bootstrap"
 end
 
-unless ENV['RBX_CORE']
-  ENV['RBX_CORE'] = "#{prefix}/runtime/core"
+unless ENV['RBX_COMMON']
+  ENV['RBX_COMMON'] = "#{prefix}/runtime/common"
+end
+
+unless ENV['RBX_DELTA']
+  ENV['RBX_DELTA'] = "#{prefix}/runtime/delta"
 end
 
 unless ENV['RBX_PLATFORM']
