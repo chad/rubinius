@@ -44,4 +44,31 @@ class Array
     end
     false
   end
+
+  # Returns the element at the given index. If the
+  # index is negative, counts from the end of the
+  # Array. If the index is out of range, nil is
+  # returned. Slightly faster than +Array#[]+
+  def at(idx)
+    Ruby.primitive :array_aref
+    idx = Type.coerce_to idx, Fixnum, :to_int
+    idx += @total if idx < 0
+
+    return nil if idx < 0 or idx >= @total
+
+    @tuple.at @start + idx
+  end
+
+  # Removes all elements in the Array and leaves it empty
+  def clear()
+    @tuple = Tuple.new(1)
+    @total = 0
+    @start = 0
+    self
+  end
+
+  def size
+    @total
+  end
+
 end
